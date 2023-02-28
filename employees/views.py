@@ -32,8 +32,11 @@ class EmployeeView(APIView):
 
 		return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
 
-	def delete(self, request):
-		pass
+	def delete(self, request, pk):
+		employee = self.get_employee(pk)
+		employee.delete()
+
+		return Response(status=status.HTTP_204_NO_CONTENT)
 
 
 class EmployeeCreateView(APIView):
