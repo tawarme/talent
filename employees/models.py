@@ -5,7 +5,7 @@ from django.contrib import admin
 class Employee(models.Model):
 	first_name = models.CharField(max_length=60)
 	last_name = models.CharField(max_length=60)
-	dni = models.CharField(max_length=8)
+	dni = models.CharField(max_length=8, unique=True)
 	area = models.CharField(max_length=30)
 	active = models.BooleanField(default=True)
 	salary = models.IntegerField()
