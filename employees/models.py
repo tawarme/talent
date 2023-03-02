@@ -21,6 +21,3 @@ class Employee(models.Model):
 
 	def __str__(self):
 		return f"{self.first_name}_{self.last_name}_{self.dni}"
-
-
-admin.site.register(Employee)
