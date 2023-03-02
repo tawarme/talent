@@ -19,5 +19,8 @@ class Employee(models.Model):
 	contract_type = models.CharField(max_length=20, choices=CONTRACT_TYPES)
 	full_time = models.BooleanField(default=True)
 
+	def __str__(self):
+		return f"{self.first_name}_{self.last_name}_{self.dni}"
+
 
 admin.site.register(Employee)
