@@ -1,12 +1,14 @@
 from django.shortcuts import render
 from django.http import Http404
+from django.contrib.auth.hashers import check_password, make_password
+from django.contrib.auth.password_validation import validate_password
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
 from employees.models import Employee
-from employees.serializers import EmployeeSerializer
+from employees.serializers import EmployeeSerializer, PasswordChangeSerializer
 
 
 class EmployeeView(APIView):
@@ -49,4 +51,20 @@ class EmployeeCreateView(APIView):
 
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class UserChangePassView(APIView):
+	def post(self, request):
+		serializer = PasswordChangeSerializer(data=request.data)
+
+		if serializer.is_valid():
+			if validate_password(request.data["new_password"]):
+				if check_password(request.data["current_password"], request.user.password):
+					user = request.user
+					user.password = make_password(request.data["new_password"])
+					user.save()
+
+					return Response()
+			return Response(serializer.errors, status=status.HTTP_401_UNAUTHORIZED)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
