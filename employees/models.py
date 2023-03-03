@@ -8,6 +8,10 @@ class Employee(models.Model):
 	CONTRACT_TYPES = [("contractor", "Contractor"),
 					  ("planilla", "Planilla")]
 
+	current_assignation = models.ForeignKey("Assignation", 
+											related_name="current_assignation",
+											on_delete=models.CASCADE)
+
 	first_name = models.CharField(max_length=60)
 	last_name = models.CharField(max_length=60)
 	dni = models.CharField(max_length=8,
@@ -35,3 +39,12 @@ class Project(models.Model):
 	name = models.CharField(max_length=256, unique=True)
 	start_date = models.DateField(null=True)
 	end_date = models.DateField(null=True)
+
+
+class Assignation(models.Model):
+	employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+	project = models.ForeignKey(Project, on_delete=models.CASCADE)
+
+	role = models.CharField(max_length=256)
+	start_date = models.DateField()
+	end_date = models.DateField()
