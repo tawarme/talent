@@ -1,9 +1,25 @@
 from django.contrib import admin
-from employees.models import Employee
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import User
+
+from employees.models import Employee, UserDetails
 
 
 class EmployeeAdmin(admin.ModelAdmin):
 	search_fields = ["first_name", "last_name"]
 
 
+class UserDetailsInline(admin.StackedInline):
+	model = UserDetails
+
+	can_delete = False
+
+
+class UserAdmin(BaseUserAdmin):
+	inlines = [UserDetailsInline]
+
+
 admin.site.register(Employee, EmployeeAdmin)
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)

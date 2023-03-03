@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib import admin
 from django.core.validators import MinLengthValidator, int_list_validator
+from django.contrib.auth.models import User
 
 
 class Employee(models.Model):
@@ -21,3 +22,10 @@ class Employee(models.Model):
 
 	def __str__(self):
 		return f"{self.first_name}_{self.last_name}_{self.dni}"
+
+
+class UserDetails(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+	worker_id = models.IntegerField(unique=True)
+	picture = models.ImageField(upload_to="userpictures/")
