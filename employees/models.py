@@ -29,3 +29,9 @@ class UserDetails(models.Model):
 
 	worker_id = models.IntegerField(unique=True)
 	picture = models.ImageField(upload_to="userpictures/")
+
+
+class Project(models.Model):
+	name = models.CharField(unique=True)
+	start_date = models.DateField(nullable=True)
+	end_date = models.DateField(nullable=True)
