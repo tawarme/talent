@@ -32,6 +32,6 @@ class UserDetails(models.Model):
 
 
 class Project(models.Model):
-	name = models.CharField(unique=True)
-	start_date = models.DateField(nullable=True)
-	end_date = models.DateField(nullable=True)
+	name = models.CharField(max_length=256, unique=True)
+	start_date = models.DateField(null=True)
+	end_date = models.DateField(null=True)
