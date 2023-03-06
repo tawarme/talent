@@ -10,7 +10,8 @@ class Employee(models.Model):
 
 	current_assignation = models.ForeignKey("Assignation", 
 											related_name="current_assignation",
-											on_delete=models.CASCADE)
+											on_delete=models.CASCADE,
+											null=True)
 
 	first_name = models.CharField(max_length=60)
 	last_name = models.CharField(max_length=60)
