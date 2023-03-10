@@ -59,7 +59,7 @@ class UserChangePassView(APIView):
 		serializer = PasswordChangeSerializer(data=request.data)
 
 		if serializer.is_valid():
-			if validate_password(request.data["new_password"]):
+			if validate_password(request.data["new_password"]) is None:
 				if check_password(request.data["current_password"], request.user.password):
 					user = request.user
 					user.password = make_password(request.data["new_password"])
