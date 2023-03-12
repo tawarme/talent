@@ -1,6 +1,7 @@
 from datetime import datetime
 
-from django.test import TestCase
+from django.contrib.auth.models import User
+from rest_framework.test import APITestCase as TestCase
 
 from employees.models import Employee, Project, Assignation
 
@@ -82,3 +83,28 @@ class AssignationTestModel(TestCase):
         max_length = assignation._meta.get_field('role').max_length
 
         self.assertEqual(max_length, 256)
+
+
+class EmployeeViewTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        user = User.objects.create_user(username="tester", password="1X<ISRUkw+tuK")
+        user.save()
+
+    def setUp(self):
+        login = self.client.post("/api-token-auth/",{"username":"tester", "password":"1X<ISRUkw+tuK"})
+        token = login.data["token"]
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
+
+    def test_unauthorized_if_not_logged_in(self):
+        self.client.credentials(HTTP_AUTHORIZATION="")
+
+        response = self.client.get('/employees/employees/')
+
+        self.assertEqual(response.status_code, 401)
+
+    def test_get(self):
+        response = self.client.get('/employees/employees/')
+
+        self.assertEqual(response.status_code, 200)
