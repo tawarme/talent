@@ -8,7 +8,7 @@ class Employee(models.Model):
 	CONTRACT_TYPES = [("contractor", "Contractor"),
 					  ("planilla", "Planilla")]
 
-	current_assignation = models.ForeignKey("Assignation", 
+	current_assignation = models.ForeignKey("Assignation",
 											related_name="current_assignation",
 											on_delete=models.CASCADE,
 											null=True)
@@ -48,4 +48,4 @@ class Assignation(models.Model):
 
 	role = models.CharField(max_length=256)
 	start_date = models.DateField()
-	end_date = models.DateField()
+	end_date = models.DateField(null=True)
