@@ -84,6 +84,28 @@ class AssignationTestModel(TestCase):
 
         self.assertEqual(max_length, 256)
 
+EMPLOYEE_CREATE_BASE = {
+                            "first_name": "Testname",
+                            "last_name": "Testlast",
+                            "dni": "79301128",
+                            "area": "AI",
+                            "contract_type": "contractor",
+                            "salary": 10000
+                       }
+
+EMPLOYEE_DNI_DUP = EMPLOYEE_CREATE_BASE.copy()
+
+EMPLOYEE_DNI_SHORT = EMPLOYEE_CREATE_BASE.copy()
+EMPLOYEE_DNI_SHORT["dni"] = "1234567"
+EMPLOYEE_DNI_LONG = EMPLOYEE_CREATE_BASE.copy()
+EMPLOYEE_DNI_LONG["dni"] = "123456789"
+EMPLOYEE_DNI_LETTERS = EMPLOYEE_CREATE_BASE.copy()
+EMPLOYEE_DNI_LONG["dni"] = "1234567a"
+
+EMPLOYEE_CREATE_DNI_FAILURES = [EMPLOYEE_DNI_DUP,
+                                EMPLOYEE_DNI_SHORT,
+                                EMPLOYEE_DNI_LONG,
+                                EMPLOYEE_DNI_LETTERS]
 
 class EmployeeViewTest(TestCase):
     @classmethod
@@ -108,3 +130,23 @@ class EmployeeViewTest(TestCase):
         response = self.client.get('/employees/employees/')
 
         self.assertEqual(response.status_code, 200)
+
+    def test_post(self):
+        response = self.client.post('/employees/employees/',
+                                    EMPLOYEE_CREATE_BASE)
+
+        self.assertEqual(response.status_code, 201)
+
+    def test_dni_failures(self):
+        response = self.client.post('/employees/employees/',
+                                    EMPLOYEE_CREATE_BASE)
+        
+        for fail_test in EMPLOYEE_CREATE_DNI_FAILURES:
+            response = self.client.post('/employees/employees/', 
+                                        fail_test)
+
+            try:
+                self.assertEqual(response.status_code, 400)
+            except:
+                print(fail_test)
+                raise
