@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from employees.models import Employee
+from employees.models import Employee, Project
 
 
 class EmployeeModelTest(TestCase):
@@ -46,3 +46,16 @@ class EmployeeModelTest(TestCase):
         expected_obj_name = f'{employee.first_name}_{employee.last_name}_{employee.dni}'
 
         self.assertEqual(expected_obj_name, str(employee))
+
+
+class ProjectModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        Project.objects.create(name="Test project")
+
+    def test_name_len(self):
+        project = Project.objects.get(id=1)
+
+        max_length = project._meta.get_field('name').max_length
+
+        self.assertEqual(max_length, 256)
