@@ -1,6 +1,8 @@
+from datetime import datetime
+
 from django.test import TestCase
 
-from employees.models import Employee, Project
+from employees.models import Employee, Project, Assignation
 
 
 class EmployeeModelTest(TestCase):
@@ -57,5 +59,26 @@ class ProjectModelTest(TestCase):
         project = Project.objects.get(id=1)
 
         max_length = project._meta.get_field('name').max_length
+
+        self.assertEqual(max_length, 256)
+
+
+class AssignationTestModel(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        EmployeeModelTest.setUpTestData()
+        ProjectModelTest.setUpTestData()
+
+        employee = Employee.objects.get(id=1)
+        project = Project.objects.get(id=1)
+
+        Assignation.objects.create(role="Test role",
+                                   start_date=datetime.now(),
+                                   employee=employee, project=project)
+
+    def test_name_len(self):
+        assignation = Assignation.objects.get(id=1)
+
+        max_length = assignation._meta.get_field('role').max_length
 
         self.assertEqual(max_length, 256)
