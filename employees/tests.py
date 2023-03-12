@@ -140,7 +140,7 @@ class EmployeeViewTest(TestCase):
     def test_dni_failures(self):
         response = self.client.post('/employees/employees/',
                                     EMPLOYEE_CREATE_BASE)
-        
+
         for fail_test in EMPLOYEE_CREATE_DNI_FAILURES:
             response = self.client.post('/employees/employees/', 
                                         fail_test)
@@ -150,3 +150,27 @@ class EmployeeViewTest(TestCase):
             except:
                 print(fail_test)
                 raise
+
+
+class PasswordChangeTests():
+    @classmethod
+    def setUpTestData(cls):
+        user = User.objects.create_user(username="tester", password="1X<ISRUkw+tuK")
+        user.save()
+
+    def test_unauthorized_if_not_logged_in(self):
+        response = self.client.get('/employees/employees/')
+
+        self.assertEqual(response.status_code, 401)
+
+    def test_change(self):
+        login = self.client.post("/api-token-auth/",{"username":"tester", "password":"1X<ISRUkw+tuK"})
+        token = login.data["token"]
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
+
+        response = self.client.post("users/change_password",
+                                    {"current_password": "1X<ISRUkw+tuK",
+                                     "change_password": "aaaaaaaa1X<ISRUkw+tuK"})
+
+        self.assertEqual(response, 200)
