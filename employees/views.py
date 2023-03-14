@@ -1,3 +1,5 @@
+from datetime import date
+
 from django.shortcuts import render
 from django.http import Http404
 from django.contrib.auth.hashers import check_password, make_password
@@ -8,8 +10,11 @@ from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
 
-from employees.models import Employee
-from employees.serializers import EmployeeSerializer, PasswordChangeSerializer
+from employees.models import Employee, Assignation
+from employees.serializers import (
+		EmployeeSerializer,
+		AssignationSerializer, 
+		PasswordChangeSerializer)
 
 
 class EmployeeView(APIView):
@@ -58,6 +63,32 @@ class EmployeeCreateView(APIView):
 class EmployeeViewSet(viewsets.ModelViewSet):
 	serializer_class = EmployeeSerializer
 	queryset = Employee.objects.all()
+
+
+class AssignationViewSet(viewsets.ModelViewSet):
+	serializer_class = AssignationSerializer
+	queryset = Assignation.objects.all()
+
+	def create(self, request):
+		new_assignation_resp = super().create(request)
+
+		if new_assignation_resp.status_code != 201:
+			return new_assignation_resp
+
+		employee = Employee.objects.get(id=request.data["employee"])
+
+		current = employee.current_assignation
+
+		if current and new_assignation_resp.data["start_date"] <= current.start_date:
+			return new_assignation_resp
+
+		if current:
+			current.end_date = date.today()
+
+		employee.current_assignation = Assignation.objects.get(id=new_assignation_resp.data["id"])
+		employee.save()
+
+		return new_assignation_resp
 
 
 class UserChangePassView(APIView):
