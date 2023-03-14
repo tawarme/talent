@@ -3,7 +3,8 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from rest_framework.test import APITestCase as TestCase
 
-from employees.models import Employee, Project, Assignation
+from employees.models import Employee, Project, Customer, Assignation
+
 
 class EmployeeModelTest(TestCase):
     @classmethod
@@ -53,7 +54,9 @@ class EmployeeModelTest(TestCase):
 class ProjectModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
-        Project.objects.create(name="Test project")
+        CustomerModelTest.setUpTestData()
+        Project.objects.create(name="Test project",
+                               customer=Customer.objects.get(id=1))
 
     def test_name_len(self):
         project = Project.objects.get(id=1)
@@ -63,10 +66,18 @@ class ProjectModelTest(TestCase):
         self.assertEqual(max_length, 256)
 
 
-class AssignationTestModel(TestCase):
+class CustomerModelTest(TestCase):
     @classmethod
     def setUpTestData(cls):
         EmployeeModelTest.setUpTestData()
+
+        Customer.objects.create(name="Test Customer",
+                                account_manager=Employee.objects.get(id=1))
+
+
+class AssignationModelTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
         ProjectModelTest.setUpTestData()
 
         employee = Employee.objects.get(id=1)
