@@ -8,19 +8,60 @@ class Employee(models.Model):
 	CONTRACT_TYPES = [("contractor", "Contractor"),
 					  ("planilla", "Planilla")]
 
+	CIVIL_STATUS = [("soltero", "Soltero"),
+					("casado", "Casado")]
+
+	SEX_CHOICES = [("masculino", "Masculino"),
+				   ("femenino", "Femenino")]
+
+	ID_TYPES = [("dni", "DNI")]
+
 	current_assignation = models.ForeignKey("Assignation",
 											related_name="current_assignation",
 											on_delete=models.CASCADE,
 											null=True)
 
 	first_name = models.CharField(max_length=60)
+	middle_name = models.CharField(max_length=60, null=True)
 	last_name = models.CharField(max_length=60)
-	dni = models.CharField(max_length=8,
-						   unique=True,
-						   validators=[MinLengthValidator(8),
-						   			   int_list_validator(sep='')])
+	second_last_name = models.CharField(max_length=60)
+	nickname = models.CharField(max_length=60, null=True)
+	birthdate = models.DateField(max_length=60, null=True)
+	address = models.CharField(max_length=60, null=True)
+	state = models.CharField(max_length=60, null=True)
+	country = models.ForeignKey("ParamItem", 
+								related_name="country_id",
+								on_delete=models.CASCADE,
+								limit_choices_to={"param__name": "country"},
+								null=True)
+	nationality = models.ForeignKey("ParamItem", 
+									related_name="nationality_id",
+									on_delete=models.CASCADE,
+									limit_choices_to={"param__name": "nationality"},
+									null=True)
+	civil_status = models.CharField(max_length=60, choices=CIVIL_STATUS, null=True)
+	sex = models.CharField(max_length=60, choices=SEX_CHOICES, null=True)
+	child_count = models.IntegerField(null=True)
+	id_type = models.CharField(max_length=60, choices=ID_TYPES)
+	id_number = models.CharField(max_length=100,
+						   		 unique=True)
+	is_dishabled = models.BooleanField(default=False)
+	dishability_type = area = models.CharField(max_length=30, null=True)
+	personal_email = models.EmailField(max_length=254)
+	phone_1 = models.CharField(max_length=256, null=True,
+							   validators=[int_list_validator(sep="")])
+	phone_2 = models.CharField(max_length=256, null=True,
+							   validators=[int_list_validator(sep="")])
 	area = models.CharField(max_length=30)
 	active = models.BooleanField(default=True)
+	emergency_contact_1 = models.CharField(max_length=400, null=True)
+	emergency_contact_1_relationship = models.CharField(max_length=60, null=True)
+	emergency_contact_1_number = models.CharField(max_length=256, null=True,
+												  validators=[int_list_validator(sep="")])
+	emergency_contact_2 = models.CharField(max_length=400, null=True)
+	emergency_contact_2_relationship = models.CharField(max_length=60, null=True)
+	emergency_contact_2_number = models.CharField(max_length=256, null=True,
+												  validators=[int_list_validator(sep="")])
 	salary = models.IntegerField()
 	contract_type = models.CharField(max_length=20, choices=CONTRACT_TYPES)
 	full_time = models.BooleanField(default=True)
