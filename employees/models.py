@@ -99,7 +99,7 @@ class Project(models.Model):
 	start_date = models.DateField(null=True)
 	end_date = models.DateField(null=True)
 
-	customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
+	customer = models.ForeignKey("Customer", on_delete=models.PROTECT)
 
 
 class Customer(models.Model):
