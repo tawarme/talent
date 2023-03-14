@@ -165,6 +165,36 @@ class EmployeeViewTest(TestCase):
                 raise
 
 
+ASSIGNATION_CREATE_BASE = {"employee": 1,
+                           "project": 1,
+                           "role": "Engineer",
+                           "start_date": "2023-01-04"}
+
+class AssginationViewSetTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        user = User.objects.create_user(username="tester", password="1X<ISRUkw+tuK")
+        user.save()
+
+        ProjectModelTest.setUpTestData()
+
+    def setUp(self):
+        login = self.client.post("/api-token-auth/",{"username":"tester", "password":"1X<ISRUkw+tuK"})
+        token = login.data["token"]
+
+        self.client.credentials(HTTP_AUTHORIZATION='Token ' + token)
+
+    def test_post(self):
+        resp = self.client.post("/employees/assignation/", 
+                                ASSIGNATION_CREATE_BASE)
+
+        self.assertEqual(resp.status_code, 201)
+
+        employee_resp = self.client.get("/employees/employees/1/")
+
+        self.assertEqual(employee_resp.data["current_assignation"], resp.data["id"])
+
+
 class PasswordChangeTests():
     @classmethod
     def setUpTestData(cls):
