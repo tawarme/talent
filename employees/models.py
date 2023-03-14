@@ -100,6 +100,12 @@ class Project(models.Model):
 	end_date = models.DateField(null=True)
 
 
+class Customer(models.Model):
+	name = models.CharField(max_length=256, unique=True)
+	credit_hold = models.BooleanField(default=False)
+	account_manager = models.ForeignKey(Employee, on_delete=models.PROTECT)
+
+
 class Assignation(models.Model):
 	employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
 	project = models.ForeignKey(Project, on_delete=models.CASCADE)
