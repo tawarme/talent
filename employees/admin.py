@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 
-from employees.models import Employee, UserDetails
+from employees.models import Employee, UserDetails, Param, ParamItem
 
 
 class EmployeeAdmin(admin.ModelAdmin):
@@ -20,6 +20,9 @@ class UserAdmin(BaseUserAdmin):
 
 
 admin.site.register(Employee, EmployeeAdmin)
+admin.site.register(Param)
+admin.site.register(ParamItem)
+
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)

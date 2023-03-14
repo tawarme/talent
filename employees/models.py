@@ -29,6 +29,23 @@ class Employee(models.Model):
 		return f"{self.first_name}_{self.last_name}_{self.dni}"
 
 
+class Param(models.Model):
+	name = models.CharField(max_length=100, unique=True)
+	description = models.TextField(blank=True, null=True)
+
+	def __str__(self):
+		return self.name
+
+
+class ParamItem(models.Model):
+	param = models.ForeignKey(Param, on_delete=models.CASCADE)
+	name = models.CharField(max_length=300)
+	description = models.TextField(blank=True, null=True)
+
+	def __str__(self):
+		return str(self.param) + "_" + self.name
+
+
 class UserDetails(models.Model):
 	user = models.OneToOneField(User, on_delete=models.CASCADE)
 
