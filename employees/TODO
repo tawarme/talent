@@ -1,0 +1,66 @@
+tabla empleado
+-primer nombre
+-segundo nombre
+-appellido paterno
+-materno
+-apodo
+-fecha nacimiendo
+-direccion actual -----max 300
+-departamento
+-pais ---------------FK
+-nacionalidad----------FK
+-estado civil CHAR OPT
+-sexo  CHAR OPT
+-number hijos
+-tipo doc, CHAR OPT
+-numero documento, CHAR, max 15
+-discapacidad booleand default False
+-tipo discapacidad CHAR
+-email personal,  email field
+-phone 1 CHAR
+-phone 2 CHAR
+-activo, bool True
+-contacto de emergencia 1, CHAR
+-relacion contacto emergencia, CHAR
+-numero contacto emergencia
+-contacto de emergencia 2, CHAR
+-relacion contacto emergencia2, CHAR
+-numero contacto emergencia 2
+
+TABLA PARAMETRO
+TABLA DETALLE PARAMETRO
+
+
+
+tabla usuario
+
+
+user authentication RESP
+-Include picture! :D
+
+PROJECT AND CLIENT IS DIFFERENT
+tabla incidencias de empleados
+-employee
+-event
+-date
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-permisos
++genrente EDIT ALLL
++ANLYST EDIT
++Emplyoee? READ
+
+TEEEEEEEEEEEEEEEEST
+

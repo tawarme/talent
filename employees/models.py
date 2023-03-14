@@ -107,3 +107,10 @@ class Assignation(models.Model):
 	role = models.CharField(max_length=256)
 	start_date = models.DateField()
 	end_date = models.DateField(null=True)
+
+
+class EmployeeIncidents(models.Model):
+	employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+
+	event_description = models.TextField()
+	date = models.DateField(auto_now=True)
