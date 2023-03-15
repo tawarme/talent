@@ -3,7 +3,7 @@ from datetime import datetime
 from django.contrib.auth.models import User
 from rest_framework.test import APITestCase as TestCase
 
-from employees.models import Employee, Project, Customer, Assignation
+from employees.models import Employee, Project, Customer, Assignation, UserDetails
 
 
 class EmployeeModelTest(TestCase):
@@ -217,3 +217,20 @@ class PasswordChangeTests():
                                      "change_password": "aaaaaaaa1X<ISRUkw+tuK"})
 
         self.assertEqual(response, 200)
+
+
+class CustomTokenViewTest(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        user = User.objects.create_user(username="tester", password="1X<ISRUkw+tuK")
+        user.save()
+
+        userdetails = UserDetails.objects.create(user=user,
+                                                 worker_id=55,
+                                                 picture="media/userpictures/Screenshot_from_2022-10-06_19-28-56.png")
+
+    def test_get_token_picture(self):
+        resp = self.client.post("/api-token-auth/",{"username":"tester", "password":"1X<ISRUkw+tuK"})
+
+        resp.data["picture"]
+
