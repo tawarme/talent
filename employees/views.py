@@ -12,9 +12,10 @@ from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 
-from employees.models import Employee, Assignation
+from employees.models import Employee, Assignation, EmployeeIncidents
 from employees.serializers import (
 		EmployeeSerializer,
+		EmployeeIncidentSerializer,
 		AssignationSerializer, 
 		PasswordChangeSerializer)
 
@@ -65,6 +66,11 @@ class EmployeeCreateView(APIView):
 class EmployeeViewSet(viewsets.ModelViewSet):
 	serializer_class = EmployeeSerializer
 	queryset = Employee.objects.all()
+
+
+class EmployeeIncidentsViewSet(viewsets.ModelViewSet):
+	serializer_class = EmployeeIncidentSerializer
+	queryset = EmployeeIncidents.objects.all()
 
 
 class AssignationViewSet(viewsets.ModelViewSet):
