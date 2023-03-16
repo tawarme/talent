@@ -77,7 +77,7 @@ class AssignationViewSet(viewsets.ModelViewSet):
 	serializer_class = AssignationSerializer
 	queryset = Assignation.objects.all()
 
-	def create(self, request):
+	def create(self, request, *args, **kwargs):
 		new_assignation_resp = super().create(request)
 
 		if new_assignation_resp.status_code != 201:
