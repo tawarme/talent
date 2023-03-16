@@ -67,7 +67,7 @@ class Employee(models.Model):
 	full_time = models.BooleanField(default=True)
 
 	def __str__(self):
-		return f"{self.first_name}_{self.last_name}_{self.dni}"
+		return f"{self.first_name}_{self.last_name}_{self.id_number}"
 
 
 class Param(models.Model):
