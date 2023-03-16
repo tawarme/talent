@@ -19,49 +19,49 @@ class Employee(models.Model):
 	current_assignation = models.ForeignKey("Assignation",
 											related_name="current_assignation",
 											on_delete=models.CASCADE,
-											null=True)
+											null=True, blank=True)
 
 	first_name = models.CharField(max_length=60)
-	middle_name = models.CharField(max_length=60, null=True)
+	middle_name = models.CharField(max_length=60, null=True, blank=True)
 	last_name = models.CharField(max_length=60)
 	second_last_name = models.CharField(max_length=60)
-	nickname = models.CharField(max_length=60, null=True)
-	birthdate = models.DateField(max_length=60, null=True)
-	address = models.CharField(max_length=60, null=True)
-	state = models.CharField(max_length=60, null=True)
+	nickname = models.CharField(max_length=60, null=True, blank=True)
+	birthdate = models.DateField(max_length=60, null=True, blank=True)
+	address = models.CharField(max_length=60, null=True, blank=True)
+	state = models.CharField(max_length=60, null=True, blank=True)
 	country = models.ForeignKey("ParamItem", 
 								related_name="country_id",
 								on_delete=models.CASCADE,
 								limit_choices_to={"param__name": "country"},
-								null=True)
+								null=True, blank=True)
 	nationality = models.ForeignKey("ParamItem", 
 									related_name="nationality_id",
 									on_delete=models.CASCADE,
 									limit_choices_to={"param__name": "nationality"},
-									null=True)
-	civil_status = models.CharField(max_length=60, choices=CIVIL_STATUS, null=True)
-	sex = models.CharField(max_length=60, choices=SEX_CHOICES, null=True)
-	child_count = models.IntegerField(null=True)
+									null=True, blank=True)
+	civil_status = models.CharField(max_length=60, choices=CIVIL_STATUS, null=True, blank=True)
+	sex = models.CharField(max_length=60, choices=SEX_CHOICES, null=True, blank=True)
+	child_count = models.IntegerField(null=True, blank=True)
 	id_type = models.CharField(max_length=60, choices=ID_TYPES)
 	id_number = models.CharField(max_length=100,
 						   		 unique=True)
 	is_dishabled = models.BooleanField(default=False)
-	dishability_type = area = models.CharField(max_length=30, null=True)
+	dishability_type = area = models.CharField(max_length=30, null=True, blank=True)
 	personal_email = models.EmailField(max_length=254)
 	phone_1 = models.CharField(max_length=256, null=True,
-							   validators=[int_list_validator(sep="")])
+							   validators=[int_list_validator(sep="")], blank=True)
 	phone_2 = models.CharField(max_length=256, null=True,
-							   validators=[int_list_validator(sep="")])
+							   validators=[int_list_validator(sep="")], blank=True)
 	area = models.CharField(max_length=30)
 	active = models.BooleanField(default=True)
-	emergency_contact_1 = models.CharField(max_length=400, null=True)
-	emergency_contact_1_relationship = models.CharField(max_length=60, null=True)
+	emergency_contact_1 = models.CharField(max_length=400, null=True, blank=True)
+	emergency_contact_1_relationship = models.CharField(max_length=60, null=True, blank=True)
 	emergency_contact_1_number = models.CharField(max_length=256, null=True,
-												  validators=[int_list_validator(sep="")])
-	emergency_contact_2 = models.CharField(max_length=400, null=True)
-	emergency_contact_2_relationship = models.CharField(max_length=60, null=True)
+												  validators=[int_list_validator(sep="")], blank=True)
+	emergency_contact_2 = models.CharField(max_length=400, null=True, blank=True)
+	emergency_contact_2_relationship = models.CharField(max_length=60, null=True, blank=True)
 	emergency_contact_2_number = models.CharField(max_length=256, null=True,
-												  validators=[int_list_validator(sep="")])
+												  validators=[int_list_validator(sep="")], blank=True)
 	salary = models.IntegerField()
 	contract_type = models.CharField(max_length=20, choices=CONTRACT_TYPES)
 	full_time = models.BooleanField(default=True)
@@ -96,8 +96,8 @@ class UserDetails(models.Model):
 
 class Project(models.Model):
 	name = models.CharField(max_length=256, unique=True)
-	start_date = models.DateField(null=True)
-	end_date = models.DateField(null=True)
+	start_date = models.DateField(null=True, blank=True)
+	end_date = models.DateField(null=True, blank=True)
 
 	customer = models.ForeignKey("Customer", on_delete=models.PROTECT)
 
@@ -114,7 +114,7 @@ class Assignation(models.Model):
 
 	role = models.CharField(max_length=256)
 	start_date = models.DateField()
-	end_date = models.DateField(null=True)
+	end_date = models.DateField(null=True, blank=True)
 
 
 class EmployeeIncidents(models.Model):
