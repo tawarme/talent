@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
 
-from employees.models import Employee, EmployeeIncidents, UserDetails, Param, ParamItem, Customer, Project
+from employees.models import Employee, EmployeeIncidents, UserDetails, Param, ParamItem, Customer, Assignation, Project
 
 
 class EmployeeAdmin(admin.ModelAdmin):
