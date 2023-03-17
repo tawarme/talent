@@ -192,7 +192,7 @@ class AssginationViewSetTests(TestCase):
 
         employee_resp = self.client.get("/employees/employees/1/")
 
-        self.assertEqual(employee_resp.data["current_assignation"], resp.data["id"])
+        self.assertEqual(employee_resp.data["current_assignation"]["id"], resp.data["id"])
 
 
 class PasswordChangeTests():
