@@ -1,5 +1,17 @@
 from rest_framework.serializers import Serializer, ModelSerializer, CharField, SlugRelatedField
-from employees.models import Employee, Assignation, EmployeeIncidents
+from employees.models import Param, ParamItem, Employee, Assignation, EmployeeIncidents, Project, Customer
+
+
+class ParamSerializer(ModelSerializer):
+	class Meta:
+		model = Param
+		fields = '__all__'
+
+
+class ParamItemSerializer(ModelSerializer):
+	class Meta:
+		model = ParamItem
+		fields = '__all__'
 
 
 class AssignationSerializer(ModelSerializer):
@@ -22,6 +34,18 @@ class EmployeeSerializer(ModelSerializer):
 class EmployeeIncidentSerializer(ModelSerializer):
 	class Meta:
 		model = EmployeeIncidents
+		fields = '__all__'
+
+
+class ProjectSerializer(ModelSerializer):
+	class Meta:
+		model = Project
+		fields = '__all__'
+
+
+class CustomerSerializer(ModelSerializer):
+	class Meta:
+		model = Customer
 		fields = '__all__'
 
 

@@ -12,11 +12,15 @@ from rest_framework import status
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 
-from employees.models import Employee, Assignation, EmployeeIncidents
+from employees.models import Param, ParamItem, Employee, Assignation, Project, Customer, EmployeeIncidents
 from employees.serializers import (
+		ParamSerializer,
+		ParamItemSerializer,
 		EmployeeSerializer,
 		EmployeeIncidentSerializer,
-		AssignationSerializer, 
+		AssignationSerializer,
+		ProjectSerializer,
+		CustomerSerializer,
 		PasswordChangeSerializer)
 
 
@@ -63,6 +67,16 @@ class EmployeeCreateView(APIView):
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ParamViewSet(viewsets.ModelViewSet):
+	serializer_class = ParamSerializer
+	queryset = Param.objects.all()
+
+
+class ParamItemViewSet(viewsets.ModelViewSet):
+	serializer_class = ParamItemSerializer
+	queryset = ParamItem.objects.all()
+
+
 class EmployeeViewSet(viewsets.ModelViewSet):
 	serializer_class = EmployeeSerializer
 	queryset = Employee.objects.all()
@@ -97,6 +111,16 @@ class AssignationViewSet(viewsets.ModelViewSet):
 		employee.save()
 
 		return new_assignation_resp
+
+
+class ProjectViewSet(viewsets.ModelViewSet):
+	serializer_class = ProjectSerializer
+	queryset = Project.objects.all()
+
+
+class CustomerViewSet(viewsets.ModelViewSet):
+	serializer_class = CustomerSerializer
+	queryset = Customer.objects.all()
 
 
 class UserChangePassView(APIView):
