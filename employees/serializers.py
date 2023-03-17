@@ -1,4 +1,4 @@
-from rest_framework.serializers import Serializer, ModelSerializer, CharField
+from rest_framework.serializers import Serializer, ModelSerializer, CharField, SlugRelatedField
 from employees.models import Employee, Assignation, EmployeeIncidents
 
 
@@ -10,6 +10,9 @@ class AssignationSerializer(ModelSerializer):
 
 class EmployeeSerializer(ModelSerializer):
 	current_assignation = AssignationSerializer(read_only=True)
+	employee_incidents = SlugRelatedField(many=True,
+										 read_only=True,
+										 slug_field="event_description")
 
 	class Meta:
 		model = Employee

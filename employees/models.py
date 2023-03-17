@@ -118,7 +118,7 @@ class Assignation(models.Model):
 
 
 class EmployeeIncidents(models.Model):
-	employee = models.ForeignKey(Employee, on_delete=models.CASCADE)
+	employee = models.ForeignKey(Employee, related_name="employee_incidents",on_delete=models.CASCADE)
 
 	event_description = models.TextField()
 	date = models.DateField(auto_now=True)
