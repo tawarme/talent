@@ -25,6 +25,7 @@ admin.site.register(Param)
 admin.site.register(ParamItem)
 admin.site.register(Customer)
 admin.site.register(Project)
+admin.site.register(Assignation)
 
 
 admin.site.unregister(User)
