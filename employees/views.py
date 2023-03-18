@@ -6,6 +6,7 @@ from django.contrib.auth.hashers import check_password, make_password
 from django.contrib.auth.password_validation import validate_password
 
 from rest_framework.views import APIView
+from rest_framework.decorators import action
 from rest_framework import viewsets
 from rest_framework.response import Response
 from rest_framework import status
@@ -80,6 +81,14 @@ class ParamItemViewSet(viewsets.ModelViewSet):
 class EmployeeViewSet(viewsets.ModelViewSet):
 	serializer_class = EmployeeSerializer
 	queryset = Employee.objects.all()
+
+	@action(detail=True)
+	def incidents(self, request, pk):
+		employee = self.get_object()
+
+		serializer = EmployeeIncidentSerializer(employee.employee_incidents, many=True)
+
+		return Response(serializer.data)
 
 
 class EmployeeIncidentsViewSet(viewsets.ModelViewSet):
